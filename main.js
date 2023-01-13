@@ -196,7 +196,7 @@ function setDarkMode() {
     side: THREE.BackSide,
   });
   const status = document.getElementsByClassName("status")[0];
-  status.style.setProperty("--status-color", "#212124");
+  status.style.setProperty("--status-color", "rgba(66, 66, 66, 0.86)");
   status.style.color = "#ffffff";
 }
 
@@ -220,7 +220,7 @@ function setWhiteMode() {
     side: THREE.BackSide,
   });
   const status = document.getElementsByClassName("status")[0];
-  status.style.setProperty("--status-color", "#ffffff");
+  status.style.setProperty("--status-color", "rgba(255, 255, 255, 0.86)");
   status.style.color = "#212124";
 }
 

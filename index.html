@@ -7,7 +7,7 @@
   <title>leonardo.moe</title>
   <style>
     :root {
-      --status-color: #ffffff;
+      --status-color: rgba(255, 255, 255, 0.86);
     }
 
     body {
@@ -15,9 +15,6 @@
       margin: 0;
       overflow: hidden;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-
-      /* height: 100vh;
-      width: 100vw; */
     }
 
     earth {
@@ -37,9 +34,13 @@
       text-align: center;
     }
 
+    header ul {
+      margin-left: -30px;
+    }
+
     header ul li {
-      display: inline;
-      padding: 30px;
+      display: inline-block;
+      padding-left: 30px;
     }
 
     main {
@@ -52,19 +53,39 @@
       right: 0;
       text-align: center;
       position: absolute;
+      display: table;
     }
 
-    main img {
+    main #memoji {
       vertical-align: middle;
       height: 100px;
     }
 
-    #arrow-left {
-      content: '';
+    main .status {
+      vertical-align: middle;
+      position: relative;
+      display: inline-block;
+      background-color: var(--status-color);
+      padding: 9px;
+      border-radius: 10px;
+      font-size: 9pt;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(4.8px);
+      -webkit-backdrop-filter: blur(4.8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
 
-      border: 5px solid transparent;
+    .tooltip-left::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0px;
+      left: 5px;
+      top: 50%;
+      border-radius: 5px;
+      border: 10px solid transparent;
       border-left: 0;
-      border-right: 5px solid #ffffff;
+      border-right: 10px solid var(--status-color);
       transform: translate(calc(-100% - 5px), -50%);
     }
 
@@ -84,18 +105,15 @@
     }
 
     button {
-      top: -20px;
-      right: 10px;
-      position: relative;
+      top: 10px;
+      position: absolute;
       border: none;
       background-color: inherit;
       cursor: pointer;
       border-radius: 9px;
-      padding: 8px;
     }
 
     .dark-mode-toggle {
-      text-align: right;
       color: #d8d8d8;
       transition: color, background-color 400ms;
     }
@@ -117,26 +135,8 @@
       transition: stroke-dasharray 0.5s ease-in, opacity 300ms ease-in;
     }
 
-    main .status {
-      position: relative;
-      background-color: var(--status-color);
-      padding: 9px;
-      border-radius: 10px;
-      font-size: 9pt;
-    }
-
-    .tooltip-left::before {
-      content: "";
-      position: absolute;
-      display: block;
-      width: 0px;
-      left: 8px;
-      top: 50%;
-      border-radius: 5px;
-      border: 10px solid transparent;
-      border-left: 0;
-      border-right: 10px solid var(--status-color);
-      transform: translate(calc(-100% - 5px), -50%);
+    .emoji {
+      height: 15px;
     }
   </style>
   <script>
@@ -163,23 +163,51 @@
       document.getElementsByTagName('header')[0].style.opacity = 0
       document.getElementsByTagName('main')[0].style.opacity = 0
     }
+
+    function about() {
+      const status = document.getElementsByClassName('status')[0]
+      status.innerHTML = 'I am a 20 year old software developer.'
+    }
+
+    function software_i_use() {
+      const status = document.getElementsByClassName('status')[0]
+      status.innerHTML = `
+      <div style="display: table-cell; vertical-align: middle; text-align: right; width: 300px">
+        <span style='width: 50%; display: table-cell;'> 
+          <svg style="color: #7da4b6;" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <title>NixOS</title>
+              <path
+                d="M7.352 1.592l-1.364.002L5.32 2.75l1.557 2.713-3.137-.008-1.32 2.34H14.11l-1.353-2.332-3.192-.006-2.214-3.865zm6.175 0l-2.687.025 5.846 10.127 1.341-2.34-1.59-2.765 2.24-3.85-.683-1.182h-1.336l-1.57 2.705-1.56-2.72zm6.887 4.195l-5.846 10.125 2.696-.008 1.601-2.76 4.453.016.682-1.183-.666-1.157-3.13-.008L21.778 8.1l-1.365-2.313zM9.432 8.086l-2.696.008-1.601 2.76-4.453-.016L0 12.02l.666 1.157 3.13.008-1.575 2.71 1.365 2.315L9.432 8.086zM7.33 12.25l-.006.01-.002-.004-1.342 2.34 1.59 2.765-2.24 3.85.684 1.182H7.35l.004-.006h.001l1.567-2.698 1.558 2.72 2.688-.026-.004-.006h.01L7.33 12.25zm2.55 3.93l1.354 2.332 3.192.006 2.215 3.865 1.363-.002.668-1.156-1.557-2.713 3.137.008 1.32-2.34H9.881Z"
+                fill="#7da4b6"></path>
+            </svg></span>
+        <span style='padding-left: 15px; display: table-cell; vertical-align: middle; text-align: left;'> Sotfware I Use 
+        <br/>
+        <p>NixOS</p>
+        <p>Window manager: dwm</p>
+        <p>Shell: Fish</p>
+        <p>Terminal: Kitty</p>
+        <p>Editor: Emacs</p></span>
+    </div>
+      `;
+    }
   </script>
   <script type="module" defer src="/main.js"></script>
+  <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <header>
     <ul>
-      <li><a href="">About</a></li>
-      <li><a href="">Sotfware</a></li>
-      <li><a href="">Blog</a></li>
-      <li><a href="">Source</a></li>
+      <li><a onclick="about()">About</a></li>
+      <li><a onclick="software_i_use()">Sotfware</a></li>
+      <li><a href="/blog/index.html">Blog</a></li>
+      <li><a href="https://github.com/leozamboni/ws23">Source</a></li>
       <li><a href="https://www.youtube.com/watch?v=Ctykf8qh288" onClick="improve()" target="_blank">Improve the
           experience</a></li>
       <li>
         <div class="dark-mode-toggle">
           <button title="Toggle Theme" onclick="darkMode()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <!-- Moon -->
               <path pathLength="1" class="moon" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -201,9 +229,13 @@
   </header>
   <earth />
   <main>
-    <img src="memoji.png" alt="">
-    <span class="status tooltip-left">working hard to make the world a better place with tech 👨‍🚀</span>
+    <img id="memoji" src="memoji.png" alt="">
+    <div class="status tooltip-left">working hard to make the world a better place with tech <span
+        class="emoji">👨‍🚀</span></div>
   </main>
+  <footer style=" position: absolute; bottom: 0; right: 0; color: black; font-weight: bold; font-size: 9pt;">
+    © Copyright 2023 Leonardo Z. N.. All rights reserved.
+  </footer>
   <script defer>
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       toggled = true
@@ -214,6 +246,10 @@
         sun.style.opacity = 0
       }
     }
+    twemoji.parse(
+      document.body,
+      { base: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/' }
+    )
   </script>
 </body>
 
