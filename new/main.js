@@ -17,7 +17,7 @@ let camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(0, 10, 8);
+camera.position.set(0, 7, 10);
 
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
@@ -44,7 +44,7 @@ const sphere = new THREE.Mesh(
 
 // create atmosphere
 const atmosphere = new THREE.Mesh(
-  new THREE.SphereGeometry(8.5, 64, 32),
+  new THREE.SphereGeometry(8.7, 64, 32),
   new THREE.ShaderMaterial({
     vertexShader: atmosphereVertexShader,
     fragmentShader: atmosphereFragmentShader,
@@ -226,14 +226,16 @@ addEventListener("mouseup", (event) => {
 
 addEventListener("resize", () => {
   renderer.setSize(hook.offsetWidth, hook.offsetHeight);
-  camera = new THREE.PerspectiveCamera(
-    75,
-    hook.offsetWidth / hook.offsetHeight,
-    0.1,
-    1000
-  );
+  // camera = new THREE.PerspectiveCamera(
+  //   75,
+  //   hook.offsetWidth / hook.offsetHeight,
+  //   0.1,
+  //   1000
+  //   );
+  camera.aspect = hook.offsetWidth / hook.offsetHeight;
+  camera.updateProjectionMatrix();
 
-  camera.position.z = 15;
+  // camera.position.z = 8;
 });
 
 addEventListener("touchend", (event) => {
