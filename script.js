@@ -151,87 +151,87 @@
       this._overObject = o;
     }
     onDocumentMouseMove(event) {
-      event.preventDefault();
-      if (this.clickedObject && this.clickedObject.handleMouseMove) {
-        let hitpoint = null,
-          hitnormal = null;
-        let intersected = this.objectFromMouse(event.pageX, event.pageY);
-        if (intersected.object == this.clickedObject) {
-          hitpoint = intersected.point;
-          hitnormal = intersected.normal;
-        }
-        this.clickedObject.handleMouseMove(
-          event.pageX,
-          event.pageY,
-          hitpoint,
-          hitnormal
-        );
-      } else {
-        let handled = false;
-        let oldObj = this.overObject;
-        let intersected = this.objectFromMouse(event.pageX, event.pageY);
-        this.overObject = intersected.object;
-        if (this.overObject != oldObj) {
-          if (oldObj) {
-            this.hook.style.cursor = "auto";
-            if (oldObj.handleMouseOut) {
-              oldObj.handleMouseOut(event.pageX, event.pageY);
-            }
-          }
-          if (this.overObject) {
-            if (this.overObject.overCursor) {
-              this.hook.style.cursor = this.overObject.overCursor;
-            }
-            if (this.overObject.handleMouseOver) {
-              this.overObject.handleMouseOver(event.pageX, event.pageY);
-            }
-          }
-          handled = true;
-        }
-        if (!handled && this.handleMouseMove) {
-          this.handleMouseMove(event.pageX, event.pageY);
-        }
-      }
+      // event.preventDefault();
+      // if (this.clickedObject && this.clickedObject.handleMouseMove) {
+      //   let hitpoint = null,
+      //     hitnormal = null;
+      //   let intersected = this.objectFromMouse(event.pageX, event.pageY);
+      //   if (intersected.object == this.clickedObject) {
+      //     hitpoint = intersected.point;
+      //     hitnormal = intersected.normal;
+      //   }
+      //   this.clickedObject.handleMouseMove(
+      //     event.pageX,
+      //     event.pageY,
+      //     hitpoint,
+      //     hitnormal
+      //   );
+      // } else {
+      //   let handled = false;
+      //   let oldObj = this.overObject;
+      //   let intersected = this.objectFromMouse(event.pageX, event.pageY);
+      //   this.overObject = intersected.object;
+      //   if (this.overObject != oldObj) {
+      //     if (oldObj) {
+      //       this.hook.style.cursor = "auto";
+      //       if (oldObj.handleMouseOut) {
+      //         oldObj.handleMouseOut(event.pageX, event.pageY);
+      //       }
+      //     }
+      //     if (this.overObject) {
+      //       if (this.overObject.overCursor) {
+      //         this.hook.style.cursor = this.overObject.overCursor;
+      //       }
+      //       if (this.overObject.handleMouseOver) {
+      //         this.overObject.handleMouseOver(event.pageX, event.pageY);
+      //       }
+      //     }
+      //     handled = true;
+      //   }
+      //   if (!handled && this.handleMouseMove) {
+      //     this.handleMouseMove(event.pageX, event.pageY);
+      //   }
+      // }
     }
     onDocumentMouseDown(event) {
-      event.preventDefault();
-      let handled = false;
-      let intersected = this.objectFromMouse(event.pageX, event.pageY);
-      if (intersected.object) {
-        if (intersected.object.handleMouseDown) {
-          intersected.object.handleMouseDown(
-            event.pageX,
-            event.pageY,
-            intersected.point,
-            intersected.normal
-          );
-          this.clickedObject = intersected.object;
-          handled = true;
-        }
-      }
-      if (!handled && this.handleMouseDown) {
-        this.handleMouseDown(event.pageX, event.pageY);
-      }
+      // event.preventDefault();
+      // let handled = false;
+      // let intersected = this.objectFromMouse(event.pageX, event.pageY);
+      // if (intersected.object) {
+      //   if (intersected.object.handleMouseDown) {
+      //     intersected.object.handleMouseDown(
+      //       event.pageX,
+      //       event.pageY,
+      //       intersected.point,
+      //       intersected.normal
+      //     );
+      //     this.clickedObject = intersected.object;
+      //     handled = true;
+      //   }
+      // }
+      // if (!handled && this.handleMouseDown) {
+      //   this.handleMouseDown(event.pageX, event.pageY);
+      // }
     }
     onDocumentMouseUp(event) {
-      event.preventDefault();
-      let handled = false;
-      let intersected = this.objectFromMouse(event.pageX, event.pageY);
-      if (intersected.object) {
-        if (intersected.object.handleMouseUp) {
-          intersected.object.handleMouseUp(
-            event.pageX,
-            event.pageY,
-            intersected.point,
-            intersected.normal
-          );
-          handled = true;
-        }
-      }
-      if (!handled && this.handleMouseUp) {
-        this.handleMouseUp(event.pageX, event.pageY);
-      }
-      this.clickedObject = null;
+      // event.preventDefault();
+      // let handled = false;
+      // let intersected = this.objectFromMouse(event.pageX, event.pageY);
+      // if (intersected.object) {
+      //   if (intersected.object.handleMouseUp) {
+      //     intersected.object.handleMouseUp(
+      //       event.pageX,
+      //       event.pageY,
+      //       intersected.point,
+      //       intersected.normal
+      //     );
+      //     handled = true;
+      //   }
+      // }
+      // if (!handled && this.handleMouseUp) {
+      //   this.handleMouseUp(event.pageX, event.pageY);
+      // }
+      // this.clickedObject = null;
     }
     onDocumentMouseScroll(event, delta) {
       // event.preventDefault();
@@ -422,7 +422,7 @@
 
       // controls = new OrbitControls(camera, myConfig.renderer.domElement);
       // camera controls
-      camera.position.set(0, 1.3, 3.3333);
+      camera.position.set(0, 1.3, 3.3333); /// 3.3333
       scene.add(camera);
       root = new THREE.Object3D();
       scene.add(root);
@@ -540,7 +540,8 @@
     config() {
       return {
         autoInit: false,
-        verticeCount: 667,
+        // verticeCount: 667,
+        verticeCount: 1000,
         materialCount: 8,
         systemCount: 24,
         distance: 1000,
@@ -830,13 +831,6 @@
       this.object3D.add(cloudsMesh);
       this._cloudsMesh = cloudsMesh;
     }
-    // initMoon() {
-    //   let moon = new app.view.milkyway.earth.Moon({
-    //     earth: this,
-    //   });
-    //   moon.init();
-    //   this.addChild(moon);
-    // }
   };
 
   app.view.milkyway.earth.Moon = class extends app.toolkit.three.Object {
@@ -919,6 +913,7 @@
       sun.init();
       this.addObject(sun);
       earth.init();
+      console.log(earth);
       this.addObject(earth);
       this.addObject(stars);
     }
