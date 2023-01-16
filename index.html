@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>leonardo.moe</title>
   <style>
+    @import url('puppertino/puppertino.css');
+
     :root {
       --status-color: rgba(255, 255, 255, 0.86);
     }
@@ -24,6 +26,7 @@
     }
 
     header {
+      background-color: var(--p-dark-900);
       transition: stroke-dasharray 200s ease-in, opacity 10000ms ease-in;
       font-size: 10pt;
       position: absolute;
@@ -90,14 +93,15 @@
     }
 
     a:hover {
-      color: #ffffff;
+      color: var(--p-silver-100);
     }
 
     a {
+      cursor: pointer;
       text-decoration: none;
       position: relative;
       font-style: normal;
-      color: #d8d8d8;
+      color: var(--p-silver-300);
       -webkit-transition: opacity 0.6s linear;
       transition: opacity 0.6s linear;
       -webkit-transition: color 0.25s ease;
@@ -114,13 +118,17 @@
     }
 
     .dark-mode-toggle {
-      color: #d8d8d8;
       transition: color, background-color 400ms;
     }
 
     .dark-mode-toggle svg {
       transition: stroke 400ms;
-      stroke: #d8d8d8;
+      stroke: var(--p-silver-300);
+    }
+
+    .dark-mode-toggle svg:hover {
+      transition: stroke 400ms;
+      stroke: var(--p-silver-100);
     }
 
     .dark-mode-toggle .moon {
@@ -174,6 +182,16 @@
       status.innerHTML = 'I am a 20 year old software developer.'
     }
 
+    function link() {
+      const status = document.getElementsByClassName('status')[0]
+      status.innerHTML = `
+      <a href="https://gitlab.leonardo.moe/leonardo" title="GitLab"><span class="emoji">&#129418;</span></a>
+      <a href="https://github.com/leozamboni" title="GitHub"><span class="emoji">&#128025;</span></a>
+      <a href="https://twitter.com/intent/user?user_id=4700433616" title="Twitter"><span class="emoji">&#128038;</span></a>
+      <a href="http://irc.leonardo.moe" title="IRC"><span class="emoji">&#128172;</span></a>
+      `
+    }
+
     function software_i_use() {
       const status = document.getElementsByClassName('status')[0]
       status.innerHTML = `
@@ -205,6 +223,7 @@
     <ul>
       <li><a onclick="about()">About</a></li>
       <li><a onclick="software_i_use()">Sotfware</a></li>
+      <li><a onclick="link()">Links</a></li>
       <li><a href="/blog/index.html">Blog</a></li>
       <li><a href="https://github.com/leozamboni/ws23">Source</a></li>
       <li><a href="https://www.youtube.com/watch?v=Ctykf8qh288" onClick="improve()" target="_blank">Improve the
