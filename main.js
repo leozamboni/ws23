@@ -27,6 +27,82 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(hook.offsetWidth, hook.offsetHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
+// create stars
+const radius = 5;
+const r = radius,
+  starsGeometry = [new THREE.BufferGeometry(), new THREE.BufferGeometry()];
+
+const vertices1 = [];
+const vertices2 = [];
+
+const vertex = new THREE.Vector3();
+
+for (let i = 0; i < 2000; i++) {
+  vertex.x = Math.random() * 2 - 1;
+  vertex.y = Math.random() * 2 - 1;
+  vertex.z = Math.random() * 2 - 1;
+  vertex.multiplyScalar(r);
+
+  vertices1.push(vertex.x, vertex.y, vertex.z);
+}
+
+for (let i = 0; i < 2000; i++) {
+  vertex.x = Math.random() * 2 - 1;
+  vertex.y = Math.random() * 2 - 1;
+  vertex.z = Math.random() * 2 - 1;
+  vertex.multiplyScalar(r);
+
+  vertices2.push(vertex.x, vertex.y, vertex.z);
+}
+
+starsGeometry[0].setAttribute(
+  "position",
+  new THREE.Float32BufferAttribute(vertices1, 3)
+);
+starsGeometry[1].setAttribute(
+  "position",
+  new THREE.Float32BufferAttribute(vertices2, 3)
+);
+
+const color = "#757575";
+function getRandomColor() {
+  var p = 1,
+    temp,
+    random = Math.random(),
+    result = "#";
+
+  while (p < color.length) {
+    temp = parseInt(color.slice(p, (p += 2)), 16);
+    temp += Math.floor((255 - temp) * random);
+    result += temp.toString(16).padStart(2, "0");
+  }
+  return result;
+}
+
+let _stars = [];
+for (let i = 10; i < 30; i++) {
+  const stars = new THREE.Points(
+    starsGeometry[i % 2],
+    new THREE.PointsMaterial({
+      color: getRandomColor(),
+      size: Math.random(),
+      sizeAttenuation: false,
+    })
+  );
+
+  _stars.push(stars);
+
+  stars.rotation.x = Math.random() * 6;
+  stars.rotation.y = Math.random() * 6;
+  stars.rotation.z = Math.random() * 6;
+  stars.scale.setScalar(i * 10);
+
+  stars.matrixAutoUpdate = false;
+  stars.updateMatrix();
+
+  scene.add(stars);
+}
+
 // create a sphere
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(10, 64, 32),
@@ -45,7 +121,7 @@ const sphere = new THREE.Mesh(
 
 // create atmosphere
 const atmosphere = new THREE.Mesh(
-  new THREE.SphereGeometry(8.7, 64, 32), // 8.7
+  new THREE.SphereGeometry(9, 64, 32), // 8.7
   new THREE.ShaderMaterial({
     vertexShader: atmosphereVertexShader,
     fragmentShader: atmosphereFragmentShader,
@@ -73,91 +149,6 @@ scene.add(clouds);
 const group = new THREE.Group();
 group.add(sphere);
 scene.add(group);
-
-// create stars
-const radius = 5;
-
-const r = radius,
-  starsGeometry = [new THREE.BufferGeometry(), new THREE.BufferGeometry()];
-
-const vertices1 = [];
-const vertices2 = [];
-
-const vertex = new THREE.Vector3();
-
-for (let i = 0; i < 250; i++) {
-  vertex.x = Math.random() * 2 - 1;
-  vertex.y = Math.random() * 2 - 1;
-  vertex.z = Math.random() * 2 - 1;
-  vertex.multiplyScalar(r);
-
-  vertices1.push(vertex.x, vertex.y, vertex.z);
-}
-
-for (let i = 0; i < 1500; i++) {
-  vertex.x = Math.random() * 2 - 1;
-  vertex.y = Math.random() * 2 - 1;
-  vertex.z = Math.random() * 2 - 1;
-  vertex.multiplyScalar(r);
-
-  vertices2.push(vertex.x, vertex.y, vertex.z);
-}
-
-starsGeometry[0].setAttribute(
-  "position",
-  new THREE.Float32BufferAttribute(vertices1, 3)
-);
-starsGeometry[1].setAttribute(
-  "position",
-  new THREE.Float32BufferAttribute(vertices2, 3)
-);
-
-const starsMaterials = [
-  new THREE.PointsMaterial({
-    color: 0x555555,
-    size: 2,
-    sizeAttenuation: false,
-  }),
-  new THREE.PointsMaterial({
-    color: 0x555555,
-    size: 1,
-    sizeAttenuation: false,
-  }),
-  new THREE.PointsMaterial({
-    color: 0x333333,
-    size: 2,
-    sizeAttenuation: false,
-  }),
-  new THREE.PointsMaterial({
-    color: 0x3a3a3a,
-    size: 1,
-    sizeAttenuation: false,
-  }),
-  new THREE.PointsMaterial({
-    color: 0x1a1a1a,
-    size: 2,
-    sizeAttenuation: false,
-  }),
-  new THREE.PointsMaterial({
-    color: 0x1a1a1a,
-    size: 1,
-    sizeAttenuation: false,
-  }),
-];
-
-for (let i = 10; i < 30; i++) {
-  const stars = new THREE.Points(starsGeometry[i % 2], starsMaterials[i % 6]);
-
-  stars.rotation.x = Math.random() * 6;
-  stars.rotation.y = Math.random() * 6;
-  stars.rotation.z = Math.random() * 6;
-  stars.scale.setScalar(i * 10);
-
-  stars.matrixAutoUpdate = false;
-  stars.updateMatrix();
-
-  scene.add(stars);
-}
 
 // camera.position.z = 15;
 
@@ -195,9 +186,6 @@ function setDarkMode() {
     blending: THREE.AdditiveBlending,
     side: THREE.BackSide,
   });
-  const status = document.getElementsByClassName("status")[0];
-  status.style.setProperty("--status-color", "rgba(66, 66, 66, 0.86)");
-  status.style.color = "#ffffff";
 }
 
 function setWhiteMode() {
@@ -219,9 +207,6 @@ function setWhiteMode() {
     blending: THREE.AdditiveBlending,
     side: THREE.BackSide,
   });
-  const status = document.getElementsByClassName("status")[0];
-  status.style.setProperty("--status-color", "rgba(255, 255, 255, 0.86)");
-  status.style.color = "#212124";
 }
 
 function animate() {
@@ -236,6 +221,15 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+async function shine_stars() {
+  const star = _stars[Math.floor(Math.random() * _stars.length - 1) + 1];
+  star.visible = false;
+  await new Promise((r) => setTimeout(r, 1000));
+  star.visible = true;
+  shine_stars();
+}
+shine_stars();
 
 hook.addEventListener("mousedown", ({ clientX, clientY }) => {
   mouse.down = true;
@@ -255,7 +249,6 @@ addEventListener("mousemove", (event) => {
 
   if (mouse.down) {
     event.preventDefault();
-    // console.log('turn the earth')
     const deltaX = event.clientX - mouse.xPrev;
     const deltaY = event.clientY - mouse.yPrev;
 
@@ -270,8 +263,6 @@ addEventListener("mousemove", (event) => {
     mouse.xPrev = event.clientX;
     mouse.yPrev = event.clientY;
   }
-
-  // console.log(mouse)
 });
 
 addEventListener("mouseup", (event) => {
@@ -280,16 +271,8 @@ addEventListener("mouseup", (event) => {
 
 addEventListener("resize", () => {
   renderer.setSize(hook.offsetWidth, hook.offsetHeight);
-  // camera = new THREE.PerspectiveCamera(
-  //   75,
-  //   hook.offsetWidth / hook.offsetHeight,
-  //   0.1,
-  //   1000
-  //   );
   camera.aspect = hook.offsetWidth / hook.offsetHeight;
   camera.updateProjectionMatrix();
-
-  // camera.position.z = 8;
 });
 
 addEventListener("touchend", (event) => {
