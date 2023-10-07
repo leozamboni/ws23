@@ -6,6 +6,15 @@ import atmosphereVertexShader from "./shaders/atmosphereVertex.glsl";
 import atmosphereFragmentShader from "./shaders/atmosphereFragment.glsl";
 import atmosphereFragmentNightShader from "./shaders/atmosphereFragmentNight.glsl";
 
+window.onload = function get_body() {
+  const body = document.getElementsByTagName("body")[0];
+  body.style.filter = "blur(0px)";
+};
+
+// load textures
+const nigthEarth = new THREE.TextureLoader().load("./textures/nigthEarth.jpg");
+const earth = new THREE.TextureLoader().load("./textures/earth.jpg");
+
 const hook = document.getElementsByTagName("earth")[0];
 const canvas = document.createElement("canvas");
 hook.appendChild(canvas);
@@ -111,9 +120,7 @@ const sphere = new THREE.Mesh(
     fragmentShader,
     uniforms: {
       globeTexture: {
-        value: new THREE.TextureLoader().load(
-          toggled ? "./textures/nigthEarth.jpg" : "./textures/earth.jpg"
-        ),
+        value: toggled ? nigthEarth : earth,
       },
     },
   })
@@ -175,11 +182,11 @@ function setDarkMode() {
     fragmentShader,
     uniforms: {
       globeTexture: {
-        value: new THREE.TextureLoader().load("./textures/nigthEarth.jpg"),
+        value: nigthEarth,
       },
     },
   });
-  atmosphere.geometry = new THREE.SphereGeometry(8.5, 64, 32);
+  atmosphere.geometry = new THREE.SphereGeometry(8.7, 64, 32);
   atmosphere.material = new THREE.ShaderMaterial({
     vertexShader: atmosphereVertexShader,
     fragmentShader: atmosphereFragmentNightShader,
@@ -195,12 +202,12 @@ function setWhiteMode() {
     fragmentShader,
     uniforms: {
       globeTexture: {
-        value: new THREE.TextureLoader().load("./textures/earth.jpg"),
+        value: earth,
       },
     },
   });
 
-  atmosphere.geometry = new THREE.SphereGeometry(8.7, 64, 32);
+  atmosphere.geometry = new THREE.SphereGeometry(9, 64, 32);
   atmosphere.material = new THREE.ShaderMaterial({
     vertexShader: atmosphereVertexShader,
     fragmentShader: atmosphereFragmentShader,
