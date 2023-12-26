@@ -7,8 +7,10 @@ import atmosphereFragmentShader from "./shaders/atmosphereFragment.glsl";
 import atmosphereFragmentNightShader from "./shaders/atmosphereFragmentNight.glsl";
 
 window.onload = function get_body() {
-  const body = document.getElementsByTagName("body")[0];
-  body.style.filter = "blur(0px)";
+  // const body = document.getElementsByTagName("body")[0];
+  const loading = document.getElementById("loading_text");
+  // body.style.filter = "blur(0px)";
+  loading.style.display = "none";
 };
 
 // load textures
